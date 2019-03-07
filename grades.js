@@ -7,6 +7,7 @@ function(err)
 {
   console.log(err);
 })
+
 var drawChart = function(data)
 {
   var screen =
