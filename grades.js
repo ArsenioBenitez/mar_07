@@ -37,6 +37,65 @@ var drawChart = function(data)
                 .range([height,0]);
 
   var colors = d3.scaleOrdinal(d3.schemeSet1);
+  var plot = svg.append('g')
+                .classed("plot",true)
+                .attr("transform","translate("+margins.left+","+margins.top=")")
+  var student = plot.selectAll('g')
+                    .data(data)
+                    .enter()
+                    .append('g')
+                    .attr("fill",function(d)
+                    {
+                      return colors(d.name);
+                    })
+  student.selectAll("circle")
+        .data(function(d)
+        {
+            return d.grades
+        })
+        .enter()
+        .append('circle')
+        .attr('cx',function(d,i)
+        {
+            return xscale(i)
+        })
+        .attr('cy',function(d)
+        {
+            return yscale(d)
+        })
+        .attr('r',10)
 
+
+  var legend = svg.append('g')
+                  .classed('legend',true)
+                  .attr('transform','translate('(width+margins.left)+')','('+margin.top+')')
+  var legendLines = legend.selectAll('g')
+                          .data(data)
+                          .append('g')
+                          .classed('legendLines',true)
+                          .attr('transform',function(d,i)
+                          {
+                              return "translate(0,'+i*12'+")";
+                          })
+  legendLines.append('rect')
+            .attr('x',0)
+            .attr('y',0)
+            .attr('width',10)
+            .attr('height',10)
+            .attr('fill',function(d)
+            {
+                return colors(d.name);
+            })
+  legendLines.append('text')
+            .attr('x',20)
+            .attr('y',0)
+            .text(function(d)
+            {
+                return d.name;
+            })
+  var xAxis = d3.axisBottom(xscale);
+  svg.append('g').classed('xAxis',true)
+                .call(xAxis)
+                .attr('transform','translate('+margins.left+','+margins.top+height+')')
 
 }
