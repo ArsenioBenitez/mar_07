@@ -22,9 +22,9 @@ var drawChart = function(data)
   var margins =
   {
     top:10,
-    bottom:10,
+    bottom:40,
     left:10,
-    right:10
+    right:100
   };
 
   var width = screen.width-margins.left-margins.right;
@@ -40,7 +40,7 @@ var drawChart = function(data)
   var colors = d3.scaleOrdinal(d3.schemeSet1);
   var plot = svg.append('g')
                 .classed("plot",true)
-                .attr("transform","translate("+margins.left+","+margins.top=")")
+                .attr("transform","translate("+margins.left+","+margins.top+")")
   var student = plot.selectAll('g')
                     .data(data)
                     .enter()
@@ -66,17 +66,20 @@ var drawChart = function(data)
         })
         .attr('r',10)
 
-
   var legend = svg.append('g')
                   .classed('legend',true)
-                  .attr('transform','translate('(width+margins.left)+')','('+margin.top+')')
+
+                  .attr('transform','translate('+(width+margins.left)+','+margins.top+')');
+
+  console.log('data:',data)
   var legendLines = legend.selectAll('g')
                           .data(data)
+                          .enter()
                           .append('g')
                           .classed('legendLines',true)
                           .attr('transform',function(d,i)
                           {
-                              return "translate(0,'+i*12'+")";
+                              return "translate(0,"+(i*12)+")";
                           })
   legendLines.append('rect')
             .attr('x',0)
