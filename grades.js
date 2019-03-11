@@ -1,21 +1,30 @@
+h1 = 350;
+h2 = 500;
+h3 = 750;
+w1 = 250;
+w2 = 400;
+w3 = 500;
 var gradeP = d3.json("gradeData.json");
 gradeP.then(function(data)
 {
-    drawChart(data);
+    drawChart(data,h1,w1,'small');
+    drawChart(data,h2,w2,'medium');
+    drawChart(data,h3,w3,'large');
+
 },
 function(err)
 {
   console.log(err);
 })
 
-var drawChart = function(data)
+var drawChart = function(data,h,w,id)
 {
   var screen =
   {
-    width:500,
-    height:400
+    width:h,
+    height:w
   };
-  var svg = d3.select("svg")
+  var svg = d3.select('svg#'+id)
               .attr("width",screen.width)
               .attr("height",screen.height)
 
@@ -23,13 +32,13 @@ var drawChart = function(data)
   {
     top:10,
     bottom:40,
-    left:10,
+    left:40,
     right:100
   };
 
   var width = screen.width-margins.left-margins.right;
   var height = screen.height-margins.top-margins.bottom;
-
+  console.log(height);
   var xscale = d3.scaleLinear()
                 .domain([0,20])
                 .range([0,width]);
@@ -92,14 +101,22 @@ var drawChart = function(data)
             })
   legendLines.append('text')
             .attr('x',20)
-            .attr('y',0)
+            .attr('y',10)
             .text(function(d)
             {
                 return d.name;
             })
+  console.log(height);
+  console.log(margins.top);
+  var xA = margins.top+height+10;
   var xAxis = d3.axisBottom(xscale);
   svg.append('g').classed('xAxis',true)
                 .call(xAxis)
-                .attr('transform','translate('+margins.left+','+margins.top+height+')')
+                .attr('transform','translate('+ margins.left + ','+xA+')' );
+  var yAxis = d3.axisLeft(yscale);
+  var yA = margins.left-10;
+  svg.append('g').classed('yAxis',true)
+                .call(yAxis)
+                .attr('transform','translate('+yA+ ','+'10'+')' );
 
 }

@@ -1,0 +1,9 @@
+body{
+    background-color: #b1b1cd;
+    position: float;
+    overflow: scroll;
+}
+svg{
+  float: left;
+  clear: both;
+}
